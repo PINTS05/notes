@@ -20,6 +20,12 @@ namespace KrakenNotes.Data
             {
                 entity.HasKey(nt => new { nt.NoteId, nt.TagId });
 
+                entity.Property(e => e.NoteId)
+                    .HasColumnName("note_id");
+
+                entity.Property(e => e.TagId)
+                    .HasColumnName("tag_id");
+
                 entity.HasOne(nt => nt.Note)
                     .WithMany(n => n.NoteTags)
                     .HasForeignKey(nt => nt.NoteId)

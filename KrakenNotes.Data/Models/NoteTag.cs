@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace KrakenNotes.Data.Models
+﻿namespace KrakenNotes.Data.Models
 {
     public class NoteTag
     {
