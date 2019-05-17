@@ -1,0 +1,21 @@
+@model IEnumerable<KrakenNotes.Data.Models.Note>
+
+@{
+    ViewData["Title"] = "Notes";
+}
+
+<div class="row">
+    <div class="col-3 notes">
+        <button class="btn btn-success btn-new-note">New Note</button>
+
+        <hr>
+
+        @foreach (var item in Model)
+        {
+            <div class="note">
+                <h4>@item.Title</h4>
+                <p>@item.Content</p>
+            </div>
+        }
+    </div>
+</div>

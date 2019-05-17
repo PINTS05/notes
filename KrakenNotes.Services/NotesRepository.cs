@@ -1,4 +1,5 @@
-﻿using KrakenNotes.Data.Models;
+﻿using KrakenNotes.Data;
+using KrakenNotes.Data.Models;
 using KrakenNotes.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,14 +12,14 @@ namespace KrakenNotes.Services
 {
     public class NotesRepository : Repository<Note>, INotesRepository
     {
-        public NotesRepository(DbContext context) : base(context)
+        public NotesRepository(KrakenNotesContext context) : base(context)
         {
-
+            
         }
 
         public IEnumerable<Note> GetNotesByUserId(int id)
         {
-            return GetAll().Where(e => e.Id == id).ToList();
+            return GetAll().Where(e => e.UserId == id).ToList();
         }
     }
 }

@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using KrakenNotes.Data;
+using KrakenNotes.Services.Interfaces;
+using KrakenNotes.Services;
 
 namespace KrakenNotes.Web
 {
@@ -39,6 +41,8 @@ namespace KrakenNotes.Web
 
             services.AddDbContext<KrakenNotesContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("KrakenNotesDB")));
+
+            services.AddTransient<INotesRepository, NotesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
