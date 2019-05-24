@@ -12,8 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using KrakenNotes.Data;
-using KrakenNotes.Services.Interfaces;
-using KrakenNotes.Services;
+using KrakenNotes.Web.Models;
+using KrakenNotes.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using KrakenNotes.Web.Services;
 
 namespace KrakenNotes.Web
 {
@@ -36,13 +38,17 @@ namespace KrakenNotes.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<KrakenNotesContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("KrakenNotesDB")));
+            //services.AddDbContext<KrakenNotesContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("KrakenNotesDB")));
 
-            services.AddTransient<INotesRepository, NotesRepository>();
+            //services.AddIdentity<User, IdentityRole>()
+            //    .AddEntityFrameworkStores<KrakenNotesContext>()
+            //    .AddDefaultTokenProviders()
+            //    .AddDefaultUI(Microsoft.AspNetCore.Identity.UI.UIFramework.Bootstrap4);
+
+            services.AddNotes();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +68,7 @@ namespace KrakenNotes.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

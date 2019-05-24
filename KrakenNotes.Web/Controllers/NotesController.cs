@@ -1,21 +1,118 @@
+using KrakenNotes.Data.Models;
+using KrakenNotes.Web.Models;
+using KrakenNotes.Web.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using KrakenNotes.Services.Interfaces;
-using KrakenNotes.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace KrakenNotes.Web.Controllers
 {
+    [Authorize]
     public class NotesController : Controller
     {
-        private readonly INotesRepository _repository;
+        private readonly INotesServices _notesServices;
+        private readonly SignInManager<User> _signInManager;
 
-        public NotesController(INotesRepository repository)
+        public NotesController(INotesServices notesServices, SignInManager<User> signInManager)
         {
-            _repository = repository;
+            _notesServices = notesServices;
+            _signInManager = signInManager;
         }
 
-        public IActionResult Index(int id)
+        public IActionResult Index()
         {
-            return View(_repository.GetNotesByUserId(id));
+            string id = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            IEnumerable<NoteViewModel> notes = _notesServices.GetNotesByUserId(id).Select(x => new NoteViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Content = x.Content
+            });
+
+            return View(notes);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(NoteCreateModel createModel)
+        {
+            var note = new Note
+            {
+                Title = createModel.Title,
+                Content = createModel.Content,
+                DateCreated = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow,
+                UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value
+            };
+
+            await _notesServices.CreateAsync(note);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var note = _notesServices.GetNoteById(id);
+
+            var model = new NoteEditModel
+            {
+                Id = note.Id,
+                Title = note.Title,
+                Content = note.Content
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(NoteEditModel model)
+        {
+            var note = _notesServices.GetNoteById(model.Id);
+
+            note.Title = model.Title;
+            note.Content = model.Content;
+
+            await _notesServices.UpdateAsync(note);
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _notesServices.DeleteAsync(id);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Details(int id)
+        {
+            var note = _notesServices.GetNoteById(id);
+
+            if (note != null)
+            {
+                var model = new NoteDetailsModel
+                {
+                    Title = note.Title,
+                    Content = note.Content
+                };
+
+                return View(model);
+            }
+
+            return NotFound();
         }
     }
 }

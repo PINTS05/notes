@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace KrakenNotes.Data.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
-        public string UserName { get; set; }
+        [MaxLength(50)]
         public string FirstName { get; set; }
+
+        [MaxLength(50)]
         public string LastName { get; set; }
-        public string Password { get; set; }
+
         public string Image { get; set; }
+
         public int ColorMode { get; set; }
 
         public ICollection<Note> Notes { get; set; }

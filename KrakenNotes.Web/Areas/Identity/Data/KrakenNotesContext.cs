@@ -1,20 +1,34 @@
-﻿using KrakenNotes.Data.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using KrakenNotes.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
-namespace KrakenNotes.Data
+namespace KrakenNotes.Web.Models
 {
-    public class KrakenNotesContext : DbContext
+    public class KrakenNotesContext : IdentityDbContext<User>
     {
-        public KrakenNotesContext(DbContextOptions options) : base(options) { }
+        public KrakenNotesContext(DbContextOptions<KrakenNotesContext> options)
+            : base(options)
+        {
+        }
 
         public DbSet<Note> Notes { get; set; }
+
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<User> Users { get; set; }
+
         public DbSet<NoteTag> NoteTags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            // Customize the ASP.NET Identity model and override the defaults if needed.
+            // For example, you can rename the ASP.NET Identity table names and more.
+            // Add your customizations after calling base.OnModelCreating(builder);
 
             modelBuilder.Entity<NoteTag>(entity =>
             {
@@ -93,17 +107,6 @@ namespace KrakenNotes.Data
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasKey(e => e.Id);
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id");
-
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("username");
-
                 entity.Property(e => e.FirstName)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -115,12 +118,6 @@ namespace KrakenNotes.Data
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("last_name");
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("password");
 
                 entity.Property(e => e.Image)
                     .HasColumnName("image");

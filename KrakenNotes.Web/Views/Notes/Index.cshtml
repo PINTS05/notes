@@ -1,21 +1,20 @@
-@model IEnumerable<KrakenNotes.Data.Models.Note>
+@model IEnumerable<KrakenNotes.Web.Models.NoteViewModel>
 
 @{
     ViewData["Title"] = "Notes";
 }
 
 <div class="row">
-    <div class="col-3 notes">
-        <button class="btn btn-success btn-new-note">New Note</button>
+    <div class="notes w-100 d-flex flex-column justify-content-around">
+        <a asp-action="Create" class="btn btn-success btn-new-note">New Note</a>
 
         <hr>
 
-        @foreach (var item in Model)
-        {
-            <div class="note">
-                <h4>@item.Title</h4>
-                <p>@item.Content</p>
-            </div>
-        }
+        <div class="d-flex justify-content-around flex-wrap">
+            @foreach (var item in Model)
+            {
+                @await Html.PartialAsync("_ViewNote.cshtml", item)
+            }
+        </div>
     </div>
 </div>

@@ -6,7 +6,7 @@ namespace KrakenNotes.Data.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         
         public ICollection<NoteTag> NoteTags { get; set; }
 

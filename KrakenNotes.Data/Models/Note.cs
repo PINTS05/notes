@@ -10,7 +10,7 @@ namespace KrakenNotes.Data.Models
         public string Content { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime LastModified { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public ICollection<NoteTag> NoteTags { get; set; }
 
