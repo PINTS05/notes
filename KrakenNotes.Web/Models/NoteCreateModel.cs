@@ -14,5 +14,8 @@ namespace KrakenNotes.Web.Models
 
         [Required]
         public string Content { get; set; }
+
+        [Required]
+        public string Description { get; set; }
     }
 }

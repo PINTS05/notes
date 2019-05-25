@@ -33,6 +33,7 @@ namespace KrakenNotes.Web.Controllers
             {
                 Id = x.Id,
                 Title = x.Title,
+                Description = x.Description,
                 Content = x.Content
             });
 
@@ -42,7 +43,9 @@ namespace KrakenNotes.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var model = new NoteCreateModel();
+
+            return View(model);
         }
 
         [HttpPost]
@@ -51,6 +54,7 @@ namespace KrakenNotes.Web.Controllers
             var note = new Note
             {
                 Title = createModel.Title,
+                Description = createModel.Description,
                 Content = createModel.Content,
                 DateCreated = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow,
@@ -71,6 +75,7 @@ namespace KrakenNotes.Web.Controllers
             {
                 Id = note.Id,
                 Title = note.Title,
+                Description = note.Description,
                 Content = note.Content
             };
 
@@ -83,6 +88,7 @@ namespace KrakenNotes.Web.Controllers
             var note = _notesServices.GetNoteById(model.Id);
 
             note.Title = model.Title;
+            note.Description = model.Description;
             note.Content = model.Content;
 
             await _notesServices.UpdateAsync(note);
@@ -106,6 +112,7 @@ namespace KrakenNotes.Web.Controllers
                 var model = new NoteDetailsModel
                 {
                     Title = note.Title,
+                    Description = note.Description,
                     Content = note.Content
                 };
 
