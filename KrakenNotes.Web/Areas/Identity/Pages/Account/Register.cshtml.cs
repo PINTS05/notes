@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using KrakenNotes.Web.Models;
 
 namespace KrakenNotes.Web.Areas.Identity.Pages.Account
 {
@@ -20,17 +21,20 @@ namespace KrakenNotes.Web.Areas.Identity.Pages.Account
         private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly KrakenNotesContext _context;
 
         public RegisterModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            KrakenNotesContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [BindProperty]
@@ -94,6 +98,17 @@ namespace KrakenNotes.Web.Areas.Identity.Pages.Account
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    await _context.Notes.AddAsync(
+                        new Note {
+                            Title = "Welcome Note",
+                            Description = "we are happy you are here.",
+                            Content = "<h1 style='text-align: center; '>Welcome to Kraken Notes &#x2764;</h1><div style='text-align: center; '>This is the place to keep your everyday notes.</div>",
+                            UserId = user.Id
+                        });
+
+                    await _context.SaveChangesAsync();
+
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)

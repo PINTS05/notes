@@ -24,9 +24,9 @@
             </div>
             <div class="form-group">
                 @*<input type="submit" value="Create" class="btn btn-success" />*@
-                <button class="btn btn-success" onclick="createNote()">
+                <a class="btn btn-success text-white" onclick="createNote()">
                     Create
-                </button>
+                </a>
             </div>
         </form>
     </div>
@@ -40,13 +40,15 @@
 </div>
 
 <script>
-    const 
+    const title = document.getElementById('title').nodeValue;
+    const description = document.getElementById('description').nodeValue;
+    const content = document.getElementById('editor').contentWindow.document.body.innerHTML;
 
-    function createNote(url, data) {
-        fetch(url, {
+    function createNote() {
+        fetch('/Notes/Create', {
             method: 'POST',
-            redirect: 'follow',
-            body: JSON.stringify(data)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ Title: title, Description: description, Content: content })
         })
     }
 </script>

@@ -49,13 +49,13 @@ namespace KrakenNotes.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(NoteCreateModel createModel)
+        public async Task<IActionResult> Create([FromBody]NoteCreateModel model)
         {
             var note = new Note
             {
-                Title = createModel.Title,
-                Description = createModel.Description,
-                Content = createModel.Content,
+                Title = model.Title,
+                Description = model.Description,
+                Content = model.Content,
                 DateCreated = DateTime.UtcNow,
                 LastModified = DateTime.UtcNow,
                 UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value
