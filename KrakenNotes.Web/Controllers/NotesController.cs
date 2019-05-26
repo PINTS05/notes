@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace KrakenNotes.Web.Controllers
@@ -49,7 +48,7 @@ namespace KrakenNotes.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]NoteCreateModel model)
+        public async Task<IActionResult> Create(NoteCreateModel model)
         {
             var note = new Note
             {

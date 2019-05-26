@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using KrakenNotes.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using KrakenNotes.Web.Models;
+using System.Diagnostics;
 
 namespace KrakenNotes.Web.Controllers
 {

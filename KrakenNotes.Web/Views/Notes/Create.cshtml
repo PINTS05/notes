@@ -40,15 +40,19 @@
 </div>
 
 <script>
-    const title = document.getElementById('title').nodeValue;
-    const description = document.getElementById('description').nodeValue;
-    const content = document.getElementById('editor').contentWindow.document.body.innerHTML;
+    const titleStr = document.getElementById('title').nodeValue;
+    const descriptionStr = document.getElementById('description').nodeValue;
+    const contentStr = document.getElementById('editor').contentWindow.document.body.innerHTML;
 
     function createNote() {
         fetch('/Notes/Create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ Title: title, Description: description, Content: content })
+            data: {
+                'Title': titleStr,
+                'Description': descriptionStr,
+                'Content': contentStr
+            }
         })
     }
 </script>

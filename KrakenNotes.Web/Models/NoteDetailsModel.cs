@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace KrakenNotes.Web.Models
+﻿namespace KrakenNotes.Web.Models
 {
     public class NoteDetailsModel
     {
