@@ -16,6 +16,6 @@ namespace KrakenNotes.Web.Services
 
         Task DeleteAsync(int id);
 
-        IEnumerable<Note> Search(string searchText);
+        IEnumerable<Note> Search(string searchText, string id);
     }
 }

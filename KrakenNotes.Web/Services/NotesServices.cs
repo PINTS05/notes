@@ -45,11 +45,14 @@ namespace KrakenNotes.Web.Services
             return notes;
         }
 
-        public async Task<IEnumerable<Note>> Search(string searchText)
+        public IEnumerable<Note> Search(string searchText, string id)
         {
             IEnumerable<Note> result = Enumerable.Empty<Note>();
 
-            result = _context.Notes.Where(n => n.Title.Contains(searchText));
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                result = _context.Notes.Where(n => n.Title.Contains(searchText) && n.UserId == id);
+            }
 
             return result;
         }

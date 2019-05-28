@@ -120,5 +120,34 @@ namespace KrakenNotes.Web.Controllers
 
             return NotFound();
         }
+
+        public IActionResult Search(SearchModel srcModel)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var result = _notesServices.Search(srcModel.SearchText, userId);
+
+            var sResult = result.Select(n => new NoteViewModel
+            {
+                Content = n.Content,
+                Description = n.Description,
+                Id = n.Id,
+                Title = n.Title
+            });
+
+            //if(sResult == null)
+            //{
+            //    sResult = Enumerable.Empty<NoteViewModel>();
+            //}
+
+            var model = new SearchModel
+            {
+                Id = userId,
+                SearchText = "",
+                SearchResult = sResult
+            };
+
+            return View(model);
+        }
     }
 }

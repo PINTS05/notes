@@ -12,6 +12,8 @@
 
 <p>@Model.Description</p>
 
-<div id="note-content">
+<div id="note-content" class="ql-editor">
     @Html.Raw(Model.Content)
 </div>
+
+<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
