@@ -45,6 +45,15 @@ namespace KrakenNotes.Web.Services
             return notes;
         }
 
+        public async Task<IEnumerable<Note>> Search(string searchText)
+        {
+            IEnumerable<Note> result = Enumerable.Empty<Note>();
+
+            result = _context.Notes.Where(n => n.Title.Contains(searchText));
+
+            return result;
+        }
+
         public async Task UpdateAsync(Note note)
         {
             _context.Update(note);

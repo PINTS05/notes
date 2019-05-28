@@ -22,16 +22,16 @@
                 <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger" id="description"></span>
             </div>
+            <input type="text" asp-for="Content" id="content-input" style="display:none;"/>
             <div class="form-group">
-                @*<input type="submit" value="Create" class="btn btn-success" />*@
-                <a class="btn btn-success text-white" onclick="createNote()">
-                    Create
-                </a>
+                <input type="submit" value="Create" class="btn btn-success" onclick="bindContent()" />
             </div>
         </form>
     </div>
     <div class="col-md">
-        <partial name="_ViewTextEditor.cshtml" model="@Model">
+        <div id="editor">
+            <p>Hello World!</p>
+        </div>
     </div>
 </div>
 
@@ -39,20 +39,22 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-<script>
-    const titleStr = document.getElementById('title').nodeValue;
-    const descriptionStr = document.getElementById('description').nodeValue;
-    const contentStr = document.getElementById('editor').contentWindow.document.body.innerHTML;
+<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
 
-    function createNote() {
-        fetch('/Notes/Create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            data: {
-                'Title': titleStr,
-                'Description': descriptionStr,
-                'Content': contentStr
-            }
-        })
+<script>
+    var editor = new Quill('#editor', {
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                ['bold', 'italic', 'underline'],
+                ['image', 'code-block'],
+                [{ list: 'ordered' }, { list: 'bullet' }]
+            ]
+        },
+        theme: 'snow'
+    });
+
+    function bindContent() {
+        document.getElementById('content-input').value = document.getElementsByClassName('ql-editor')[0].innerHTML;
     }
 </script>

@@ -31,14 +31,16 @@ namespace KrakenNotes.Web.Areas.Identity.Pages.Account
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            if (returnUrl != null)
-            {
-                return LocalRedirect(returnUrl);
-            }
-            else
-            {
-                return Page();
-            }
+            //if (returnUrl != null)
+            //{
+            //    return LocalRedirect(returnUrl);
+            //}
+            //else
+            //{
+            //    return Page();
+            //}
+
+            return RedirectToAction("Index", "Notes");
         }
     }
 }

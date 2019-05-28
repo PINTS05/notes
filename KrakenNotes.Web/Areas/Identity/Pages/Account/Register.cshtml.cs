@@ -103,7 +103,7 @@ namespace KrakenNotes.Web.Areas.Identity.Pages.Account
                         new Note {
                             Title = "Welcome Note",
                             Description = "we are happy you are here.",
-                            Content = "<h1 style='text-align: center; '>Welcome to Kraken Notes &#x2764;</h1><div style='text-align: center; '>This is the place to keep your everyday notes.</div>",
+                            Content = "<h1 style='text-align: center; '>Welcome to Notes &#x2764;</h1><div style='text-align: center; '>This is the place to keep your everyday notes.</div>",
                             UserId = user.Id
                         });
 
